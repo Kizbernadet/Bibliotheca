@@ -8,6 +8,8 @@
 
 // Modules Utilisés
 import 'package:flutter/material.dart';
+import 'package:gestion_bibliotheque/views/category_list.dart';
+import 'package:path/path.dart';
 
 // Classe HomePage - fille de la classe StateFulWidget
 class HomePage extends StatefulWidget {
@@ -63,7 +65,10 @@ class _HomePageState extends State<HomePage> {
               MaterialButton(
               textColor: Colors.blue, 
               onPressed: (){
-
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => const ListeCategorie())
+                )
               },
               child : const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
