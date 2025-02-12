@@ -3,6 +3,7 @@
 // Importation de la librairie Database
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 class Dao {
   /* 
@@ -29,7 +30,9 @@ class Dao {
     /**
      * Le mot-clé Final est utilisé pour specifier des variables constantes
      */
-    databaseFactory = databaseFactoryFfi;
+    //databaseFactory = databaseFactoryFfi;
+    databaseFactory = databaseFactoryFfiWeb;
+
     final dbPath = await getDatabasesPath();
     final path = join(dbPath , filePath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
@@ -47,12 +50,12 @@ class Dao {
       )''');
     await db.execute(''' CREATE TABLE books (
       id INTEGER PRIMARY KEY AUTOINCREMENT, 
-      libelle VARCHAR(255) NOT NULL
-      description VARCHAR(255) NOT NULL
+      libelle VARCHAR(255) NOT NULL,
+      description VARCHAR(255) NOT NULL,
       nbpages INTEGER,
       image VARCHAR(255) NOT NULL,
       author_id INTEGER NOT NULL,
-      category_id INTEGER NO NULL,
+      category_id INTEGER NO NULL
       )''');
   }
 

@@ -9,7 +9,6 @@
 // Modules Utilisés
 import 'package:flutter/material.dart';
 import 'package:gestion_bibliotheque/views/category_list.dart';
-import 'package:path/path.dart';
 
 // Classe HomePage - fille de la classe StateFulWidget
 class HomePage extends StatefulWidget {
@@ -25,65 +24,76 @@ class _HomePageState extends State<HomePage> {
           title: const Text("Bienvenue sur Bibliotheca"),
         ),
         body: GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount
-          (crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
           children: [
             MaterialButton(
-              textColor: Colors.blue, 
-              onPressed: (){
-
-              },
-              child : const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.book, color: Colors.blue,),
-                  SizedBox(width: 10, height: 10,),
-                  Text(
-                    "Livres",
-                    style : TextStyle(fontSize: 17),
-                  )
-                ],
-              )
-              ),
-              MaterialButton(
-              textColor: Colors.blue, 
-              onPressed: (){
-
-              },
-              child : const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.book, color: Colors.blue,),
-                  SizedBox(width: 10, height: 10,),
-                  Text(
-                    "Auteurs",
-                    style : TextStyle(fontSize: 17),
-                  )
-                ],
-              )
-              ),
-              MaterialButton(
-              textColor: Colors.blue, 
-              onPressed: (){
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (context) => const ListeCategorie())
-                )
-              },
-              child : const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.book, color: Colors.blue,),
-                  SizedBox(width: 10, height: 10,),
-                  Text(
-                    "Categories",
-                    style : TextStyle(fontSize: 17),
-                  )
-                ],
-              )
-              ),
+                textColor: Colors.blue,
+                onPressed: () {},
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.book,
+                      color: Colors.blue,
+                    ),
+                    SizedBox(
+                      width: 10,
+                      height: 10,
+                    ),
+                    Text(
+                      "Livres",
+                      style: TextStyle(fontSize: 17),
+                    )
+                  ],
+                )),
+            MaterialButton(
+                textColor: Colors.blue,
+                onPressed: () {},
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.book,
+                      color: Colors.blue,
+                    ),
+                    SizedBox(
+                      width: 10,
+                      height: 10,
+                    ),
+                    Text(
+                      "Auteurs",
+                      style: TextStyle(fontSize: 17),
+                    )
+                  ],
+                )),
+            MaterialButton(
+                textColor: Colors.blue,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ListeCategorie()));
+                },
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.book,
+                      color: Colors.blue,
+                    ),
+                    SizedBox(
+                      width: 10,
+                      height: 10,
+                    ),
+                    Text(
+                      "Categories",
+                      style: TextStyle(fontSize: 17),
+                    )
+                  ],
+                )),
           ],
-          ),
+        ),
       );
   /*
     On  utilise la widget Scaffold pour créer notre composante 
