@@ -58,6 +58,5 @@ class Dao {
       category_id INTEGER NO NULL
       )''');
   }
-
   //
 }

@@ -15,19 +15,19 @@ class CategorieController {
 
   static Future<Categorie> createCategory(Categorie categorie) async {
     final db = await Dao.database;
-    var id = await db.insert("categories", categorie.toMap() as Map<String, Object?>);
+    var id = await db.insert("categories", categorie.toMap());
     categorie.id = id;
     return categorie;
   }
 
   static Future<int> updateCategory(Categorie categorie) async {
     final db = await Dao.database;
-    return await db.update("categories", categorie.toMap() as Map<String, Object?>,
-        where: "id : ?", whereArgs: [categorie.id]);
+    return await db.update("categories", categorie.toMap(),
+    where: "id = ?", whereArgs: [categorie.id]);
   }
 
   static Future<int> deleteCategory(int id) async {
     final db = await Dao.database;
-    return await db.delete("categories", where: "id : ?", whereArgs: [id]);
+    return await db.delete("categories", where: "id = ?", whereArgs: [id]);
   }
 }
