@@ -12,8 +12,13 @@ class EditionAuthor extends StatefulWidget {
 }
 
 class _EditionAuthorState extends State<EditionAuthor> {
-  TextEditingController txtAuthor =
-      TextEditingController(); // Contrôleur pour récupérer le texte du champ
+  TextEditingController txtAuthorName =
+      TextEditingController();
+  TextEditingController txtAuthorFirstname =
+      TextEditingController();
+  TextEditingController txtAuthorMail =
+      TextEditingController();
+   // Contrôleur pour récupérer le texte du champ
   final keyform = GlobalKey<FormState>();
   late bool isEditing;
 
@@ -23,15 +28,19 @@ class _EditionAuthorState extends State<EditionAuthor> {
     isEditing = widget.author !=
         null; // Vérifie si une catégorie est passée pour activer le mode édition
     if (widget.author != null) {
-      txtAuthor.text = widget.author!
-          .name!; // Pré-remplit le champ texte si on modifie une catégorie
+      txtAuthorName.text = widget.author!
+          .name! ;
+      txtAuthorFirstname.text = widget.author!
+          .firstname! ;
+      txtAuthorMail.text = widget.author!
+          .mail! ; // Pré-remplit le champ texte si on modifie une catégorie
     }
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-          title: Text(isEditing ? "Modification" : "Ajout"),
+          title: Text(isEditing ? "Modification" : "Ajout d'un nouvel auteur"),
     ),
     body: Form(
       key: keyform,
@@ -46,11 +55,28 @@ class _EditionAuthorState extends State<EditionAuthor> {
                   child: Icon(Icons.person),
                 ),
               ),
-              // Champ de saisie pour le nom de la catégorie
+              // Champ de saisie pour le nom de l'auteur
               TextFormField(
-                controller: txtAuthor,
+                controller: txtAuthorName,
                 decoration:
-                    const InputDecoration(labelText: "Nouvel Auteur"),
+                    const InputDecoration(labelText: "Nom"),
+                validator: (value) =>
+                    value!.isEmpty ? "Champ Obligatoire" : null,
+              ),
+              // Champ Saisie Prenom
+               TextFormField(
+                controller: txtAuthorFirstname,
+                decoration:
+                    const InputDecoration(labelText: "Prenom"),
+                validator: (value) =>
+                    value!.isEmpty ? "Champ Obligatoire" : null,
+              ),
+
+              // Champ Saisie Mail
+               TextFormField(
+                controller: txtAuthorMail,
+                decoration:
+                    const InputDecoration(labelText: "Adresse Mail"),
                 validator: (value) =>
                     value!.isEmpty ? "Champ Obligatoire" : null,
               ),
@@ -75,13 +101,17 @@ class _EditionAuthorState extends State<EditionAuthor> {
       if (widget.author == null) {
         // Création d'une nouvelle catégorie
         Author newAuthor = Author();
-        newAuthor.name = txtAuthor.text;
+        newAuthor.name = txtAuthorName.text;
+        newAuthor.name = txtAuthorFirstname.text;
+        newAuthor.name = txtAuthorMail.text;
         await AuthorController.addAuthor(
             newAuthor); // Appelle le contrôleur pour enregistrer
       } else {
         // Mise à jour d'une catégorie existante
         Author existedAuthor = widget.author!;
-        existedAuthor.name = txtAuthor.text;
+        existedAuthor.name = txtAuthorName.text;
+        existedAuthor.firstname = txtAuthorFirstname.text;
+        existedAuthor.mail = txtAuthorMail.text;
         await AuthorController.updateAuthor(
             existedAuthor); // Mise à jour via le contrôleur
       }

@@ -8,6 +8,7 @@
 
 // Modules Utilisés
 import 'package:flutter/material.dart';
+import 'package:gestion_bibliotheque/views/author_list.dart';
 import 'package:gestion_bibliotheque/views/category_list.dart';
 
 // Classe HomePage - fille de la classe StateFulWidget
@@ -49,7 +50,12 @@ class _HomePageState extends State<HomePage> {
                 )),
             MaterialButton(
                 textColor: Colors.blue,
-                onPressed: () {},
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ListeAuthors()));
+                },
                 child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
