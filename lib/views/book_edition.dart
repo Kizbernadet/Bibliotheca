@@ -75,16 +75,16 @@ class _EditionBookState extends State<EditionBook> {
                     value!.isEmpty ? "Champ Obligatoire" : null,
               ),
               TextFormField(
-                controller: txtBookDescription,
+                controller: txtBookImage,
                 decoration:
-                    const InputDecoration(labelText: "Description"),
+                    const InputDecoration(labelText: "Image"),
                 validator: (value) =>
                     value!.isEmpty ? "Champ Obligatoire" : null,
               ),
               TextFormField(
-                controller: txtBookDescription,
+                controller: txtBooknbPage,
                 decoration:
-                    const InputDecoration(labelText: "Description"),
+                    const InputDecoration(labelText: "Nombre de pages"),
                 validator: (value) =>
                     value!.isEmpty ? "Champ Obligatoire" : null,
               ),
