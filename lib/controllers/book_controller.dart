@@ -19,7 +19,8 @@ class BookController {
     var id = await db.insert("books", book.toMap());
     book.id = id;
     return book;
-  }
+}
+
 
   static Future<int> updateBook(Book book) async {
     final db = await Dao.database;

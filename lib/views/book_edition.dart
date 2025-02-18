@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_bibliotheque/controllers/author_controller.dart';
+import 'package:gestion_bibliotheque/controllers/category_controller.dart';
+import 'package:gestion_bibliotheque/models/author.dart';
 import 'package:gestion_bibliotheque/models/book.dart';
 import 'package:gestion_bibliotheque/controllers/book_controller.dart';
+import 'package:gestion_bibliotheque/models/categorie.dart';
 
 class EditionBook extends StatefulWidget {
   final Book?
@@ -24,21 +28,33 @@ class _EditionBookState extends State<EditionBook> {
 
   late bool isEditing; // Variable pour savoir si on est en mode édition
   /// En fonction du mode Edition , on va ajouter ou modifier
+  List<Author> authorsList = []; // Liste des auteurs
+  List<Categorie> categoriesList = []; // Liste des catégories
+  int? selectedAuthorId; // Auteur sélectionné
+  int? selectedCategoryId; // Catégorie sélectionnée
+
 
   @override
-  void initState() {
-    super.initState();
-    isEditing = widget.book !=
-        null; // Vérifie si une catégorie est passée pour activer le mode édition
-    if (widget.book != null) {
-      txtBookLibelle.text = widget.book!
-          .libelle!;
-      txtBookDescription.text = widget.book!
-          .description!;
-      txtBookImage.text = widget.book!
-          .nbPage! as String;// Pré-remplit le champ texte si on modifie une catégorie
-    }
+void initState() {
+  super.initState();
+  isEditing = widget.book != null;
+  if (widget.book != null) {
+    txtBookLibelle.text = widget.book!.libelle!;
+    txtBookDescription.text = widget.book!.description!;
+    txtBookImage.text = widget.book!.image!;
+    txtBooknbPage.text = widget.book!.nbPage.toString();
+    selectedAuthorId = widget.book!.authorId;
+    selectedCategoryId = widget.book!.categorieId;
   }
+  _loadData(); // Charge les auteurs et catégories
+}
+
+Future<void> _loadData() async {
+  authorsList = await AuthorController.authorsList();
+  categoriesList = await CategorieController.categoriesList();
+  setState(() {}); // Met à jour l'interface
+}
+
 
   /// Construit l'interface utilisateur de l'écran d'édition
   @override
