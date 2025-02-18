@@ -13,6 +13,9 @@ void main() {
 
   Author author = Author(name: "Kishimoto", firstname: 'Masashi', mail: "kisimotosan@gmail.com");
   AuthorController.addAuthor(author);
+  if (kDebugMode) {
+    print('Auteur inséré avec id : ${author.id}');
+  }
 }
 
 Future<void> afficher() async {

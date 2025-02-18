@@ -1,15 +1,12 @@
-// Classe de modélisation des livres
 class Book {
-  // Attributs d'instance de la classe Book
   int? id;
   String? libelle;
   String? description;
   String? image;
   int? nbPage;
-  int? authorId;
-  int? categorieId;
+  int? authorId; // Clé étrangère vers l'auteur
+  int? categorieId; // Clé étrangère vers la catégorie
 
-  // Constructeur de la classe Book
   Book({
     this.id,
     this.libelle,
@@ -20,25 +17,29 @@ class Book {
     this.categorieId,
   });
 
-  Book.fromMap(Map<String, dynamic> json) {
-    id = json["id"];
-    libelle = json["libelle"];
-    description = json["description"];
-    image = json["image"];
-    nbPage = json["nbPage"];
-    authorId = json["authorId"];
-    categorieId = json["categorieId"];
+  // Méthode pour créer un objet Book à partir d'une Map
+  factory Book.fromMap(Map<String, dynamic> map) {
+    return Book(
+      id: map['id'],
+      libelle: map['libelle'],
+      description: map['description'],
+      image: map['image'],
+      nbPage: map['nbPage'],
+      authorId: map['authorId'],
+      categorieId: map['categorieId'],
+    );
   }
 
-  // get desciption => null;
+  // Méthode pour convertir un objet Book en Map
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {};
-    map["id"] = id;
-    map["libelle"] = libelle;
-    map["image"] = image;
-    map["nbPage"] = nbPage;
-    map["authorId"] = authorId;
-    map["categorieId"] = categorieId;
-    return map;
+    return {
+      'id': id,
+      'libelle': libelle,
+      'description': description,
+      'image': image,
+      'nbPage': nbPage,
+      'authorId': authorId,
+      'categorieId': categorieId,
+    };
   }
 }

@@ -46,7 +46,8 @@ class Dao {
     await db.execute(''' CREATE TABLE authors (
       id INTEGER PRIMARY KEY AUTOINCREMENT, 
       name VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL
+      firstname VARCHAR(255) NOT NULL,
+      mail VARCHAR(255) NOT NULL
       )''');
     await db.execute(''' CREATE TABLE books (
       id INTEGER PRIMARY KEY AUTOINCREMENT, 

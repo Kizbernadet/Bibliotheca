@@ -30,4 +30,16 @@ class CategorieController {
     final db = await Dao.database;
     return await db.delete("categories", where: "id = ?", whereArgs: [id]);
   }
+
+  static Future<void> deleteCategoryIfNoBooks(int categoryId) async {
+  final db = await Dao.database;
+
+  // Vérifie s'il reste des livres associés à cette catégorie
+  var books = await db.query("books", where: "categorieId = ?", whereArgs: [categoryId]);
+  if (books.isEmpty) {
+    // Aucune catégorie associée, supprime la catégorie
+    await db.delete("categories", where: "id = ?", whereArgs: [categoryId]);
+  }
+}
+
 }
