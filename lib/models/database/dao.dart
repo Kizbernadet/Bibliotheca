@@ -53,10 +53,10 @@ class Dao {
       id INTEGER PRIMARY KEY AUTOINCREMENT, 
       libelle VARCHAR(255) NOT NULL,
       description VARCHAR(255) NOT NULL,
-      nbpages INTEGER,
+      nbPage INTEGER NOT NULL,
       image VARCHAR(255) NOT NULL,
-      author_id INTEGER NOT NULL,
-      category_id INTEGER NO NULL
+      authorId INTEGER NOT NULL,
+      categorieId INTEGER NO NULL
       )''');
   }
   //

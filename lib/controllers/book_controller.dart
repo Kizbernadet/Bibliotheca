@@ -22,6 +22,7 @@ class BookController {
 }
 
 
+
   static Future<int> updateBook(Book book) async {
     final db = await Dao.database;
     return await db.update("books", book.toMap(),
