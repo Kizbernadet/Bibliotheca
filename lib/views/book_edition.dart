@@ -58,94 +58,144 @@ Future<void> _loadData() async {
 
   /// Construit l'interface utilisateur de l'écran d'édition
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(isEditing ? "Modification" : "Ajout"),
+Widget build(BuildContext context) {
+  // Vérifie si les listes d'auteurs ou de catégories sont vides
+  if (authorsList.isEmpty || categoriesList.isEmpty) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(isEditing ? "Modification" : "Ajout d'un livre"),
+      ),
+      body: Center(
+        child: Text(
+          "Aucun auteur ou catégorie disponible. Veuillez en ajouter avant de créer un livre.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16),
         ),
-        body: Form(
-          key: keyform,
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              // Bouton pour sélectionner une icône ou une image (pas encore implémenté)
-              MaterialButton(
-                onPressed: () {},
-                child: const CircleAvatar(
-                  radius: 50,
-                  child: Icon(Icons.category),
-                ),
-              ),
-              // Champ de saisie pour le nom du livre
-              TextFormField(
-                controller: txtBookLibelle,
-                decoration:
-                    const InputDecoration(labelText: "Nom du livre"),
-                validator: (value) =>
-                    value!.isEmpty ? "Champ Obligatoire" : null,
-              ),
-              TextFormField(
-                controller: txtBookDescription,
-                decoration:
-                    const InputDecoration(labelText: "Description"),
-                validator: (value) =>
-                    value!.isEmpty ? "Champ Obligatoire" : null,
-              ),
-              TextFormField(
-                controller: txtBookImage,
-                decoration:
-                    const InputDecoration(labelText: "Image"),
-                validator: (value) =>
-                    value!.isEmpty ? "Champ Obligatoire" : null,
-              ),
-              TextFormField(
-                controller: txtBooknbPage,
-                decoration:
-                    const InputDecoration(labelText: "Nombre de pages"),
-                validator: (value) =>
-                    value!.isEmpty ? "Champ Obligatoire" : null,
-              ),
-              TextFormField(
-                controller: txtBookDescription,
-                decoration:
-                    const InputDecoration(labelText: "Description"),
-                validator: (value) =>
-                    value!.isEmpty ? "Champ Obligatoire" : null,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              // Bouton pour enregistrer la catégorie
-              ElevatedButton(
-                onPressed: () {
-                  _submit();
-                },
-                child: Text(isEditing ? "Modifier" : "Ajouter"),
-              )
-            ],
+      ),
+    );
+  }
+
+  // Si les listes ne sont pas vides, affiche le formulaire
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(isEditing ? "Modification" : "Ajout d'un livre"),
+    ),
+    body: Form(
+      key: keyform,
+      child: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          // Bouton pour sélectionner une icône ou une image
+          MaterialButton(
+            onPressed: () {},
+            child: const CircleAvatar(
+              radius: 50,
+              child: Icon(Icons.category),
+            ),
           ),
-        ),
-      );
+          // Champ de saisie pour le titre du livre
+          TextFormField(
+            controller: txtBookLibelle,
+            decoration: const InputDecoration(labelText: "Nom du livre"),
+            validator: (value) => value!.isEmpty ? "Champ Obligatoire" : null,
+          ),
+          TextFormField(
+            controller: txtBookDescription,
+            decoration: const InputDecoration(labelText: "Description"),
+            validator: (value) => value!.isEmpty ? "Champ Obligatoire" : null,
+          ),
+          TextFormField(
+            controller: txtBookImage,
+            decoration: const InputDecoration(labelText: "Image"),
+            validator: (value) => value!.isEmpty ? "Champ Obligatoire" : null,
+          ),
+          TextFormField(
+            controller: txtBooknbPage,
+            decoration: const InputDecoration(labelText: "Nombre de pages"),
+            validator: (value) => value!.isEmpty ? "Champ Obligatoire" : null,
+          ),
+          // Dropdown pour sélectionner un auteur
+          DropdownButtonFormField<int>(
+            value: selectedAuthorId,
+            items: authorsList.map((author) {
+              return DropdownMenuItem<int>(
+                value: author.id,
+                child: Text(author.name ?? "Auteur inconnu"),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedAuthorId = value;
+              });
+            },
+            decoration: const InputDecoration(labelText: "Auteur"),
+            validator: (value) =>
+                value == null ? "Veuillez sélectionner un auteur" : null,
+          ),
+          const SizedBox(height: 20), // Espacement
+          // Dropdown pour sélectionner une catégorie
+          DropdownButtonFormField<int>(
+            value: selectedCategoryId,
+            items: categoriesList.map((category) {
+              return DropdownMenuItem<int>(
+                value: category.id,
+                child: Text(category.libelle ?? "Catégorie inconnue"),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedCategoryId = value;
+              });
+            },
+            decoration: const InputDecoration(labelText: "Catégorie"),
+            validator: (value) =>
+                value == null ? "Veuillez sélectionner une catégorie" : null,
+          ),
+          const SizedBox(height: 20),
+          // Bouton pour enregistrer
+          ElevatedButton(
+            onPressed: () {
+              _submit();
+            },
+            child: Text(isEditing ? "Modifier" : "Ajouter"),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 
   /// Fonction permettant de soumettre le formulaire et d'enregistrer la catégorie
   Future<void> _submit() async {
-    if (keyform.currentState!.validate()) {
-      // Vérifie que le formulaire est valide
-      if (widget.book == null) {
-        // Création d'une nouvelle catégorie
-        Book book = Book();
-        book.libelle = txtBookLibelle.text;
-        await BookController.addBook(
-            book); // Appelle le contrôleur pour enregistrer
-      } else {
-        // Mise à jour d'une catégorie existante
-        Book book = widget.book!;
-        book.libelle = txtBookLibelle.text;
-        await BookController.updateBook(
-            book); // Mise à jour via le contrôleur
-      }
-      if (mounted) {
+  if (keyform.currentState!.validate()) {
+    if (widget.book == null) {
+      // Création d'un nouveau livre
+      Book newBook = Book(
+        libelle: txtBookLibelle.text,
+        description: txtBookDescription.text,
+        image: txtBookImage.text,
+        nbPage: int.tryParse(txtBooknbPage.text),
+        authorId: selectedAuthorId,
+        categorieId: selectedCategoryId,
+      );
+      await BookController.addBook(newBook);
+    } else {
+      // Mise à jour d'un livre existant
+      Book existedBook = widget.book!;
+      existedBook.libelle = txtBookLibelle.text;
+      existedBook.description = txtBookDescription.text;
+      existedBook.image = txtBookImage.text;
+      existedBook.nbPage = int.tryParse(txtBooknbPage.text);
+      existedBook.authorId = selectedAuthorId;
+      existedBook.categorieId = selectedCategoryId;
+      await BookController.updateBook(existedBook);
+    }
+
+    if (mounted) {
       Navigator.pop(context);
-      }
     }
   }
+}
+
 }
